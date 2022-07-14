@@ -373,7 +373,7 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -425,116 +425,116 @@
 
 
 
-        <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.8.0.min.js"></script>
-                                        
-        <script type="text/javascript">
-        
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.8.0.min.js"></script>
+
+    <script type="text/javascript">
+
         window.addEventListener("load", mediaSizer);
-                //window.addEventListener("resize", mediaSizer);
-                // Listeners that will react when the page first loads or is resized.
-                // If any of these events take place the mediaSizer() function executes.
-        
-                var vizList = [
-        
-                            "https://demo.tableau.com/t/LuizOliveira/views/resultado_16578117766460/Resultados?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link",
-                            "https://demo.tableau.com/t/LuizOliveira/views/HUMANRESOURCES-HRExpensesDashboardBrasil_16578110317080/Cockpit?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link",
-                            "https://demo.tableau.com/t/LuizOliveira/views/FinanasCorporativas-PainelDemonstrativoFinanceiro_16578110330000/Cockpit-Finance?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link"
-    
-        
-                        ];
-                // Array of Tableau Server URLs for dashboard or sheet navigation.
-            
-                var viz,
-                    vizLen = vizList.length,
-                    vizCount = 0,
-                    devType;
-                var options = {
+        //window.addEventListener("resize", mediaSizer);
+        // Listeners that will react when the page first loads or is resized.
+        // If any of these events take place the mediaSizer() function executes.
+
+        var vizList = [
+
+            "https://demo.tableau.com/t/LuizOliveira/views/resultado_16578117766460/Resultados?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link",
+            "https://demo.tableau.com/t/LuizOliveira/views/HUMANRESOURCES-HRExpensesDashboardBrasil_16578110317080/Cockpit?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link",
+            "https://demo.tableau.com/t/LuizOliveira/views/FinanasCorporativas-PainelDemonstrativoFinanceiro_16578110330000/Cockpit-Finance?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link"
+
+
+        ];
+        // Array of Tableau Server URLs for dashboard or sheet navigation.
+
+        var viz,
+            vizLen = vizList.length,
+            vizCount = 0,
+            devType;
+        var options = {
+            device: devType,
+        };
+
+
+        function mediaSizer() {
+            // Determines the correct viz layout according to screen sizes.
+            if (window.matchMedia("(max-width: 480px)").matches) {
+                //alert("I am a phone layout!");
+                devType = 'phone';
+                vWidth = 415;
+                vHeight = 950;
+                //options.device = 'phone';
+            } else if (window.matchMedia("(max-width: 980px)").matches) {
+                //alert("I am a tablet layout!");
+                devType = 'tablet';
+                vWidth = 980;
+                //options.device = 'tablet';
+            } else {
+                //alert("I am a desktop layout!");
+                devType = 'desktop';
+                vWidth = 1666;
+                vHeight = 900;
+                //options.device = 'desktop';
+            }
+            console.log("devtype: " + devType)
+            console.log("launch0")
+            launchViz(0);
+            console.log("launch1")
+            launchViz(1);
+            launchViz(2);
+
+
+
+
+
+            // Launches the viz again with the new sizing at the current index of vizList.
+        }
+
+
+        function launchViz(vizNav) {
+            // JS object targeting a div in the html document. (vizNav) will pass navigation values to move back and forth across vizList.
+            console.log("vizContainer" + vizNav)
+            console.log("devtype: " + devType)
+            var vizDiv = document.getElementById("vizContainer" + vizNav),
+                // Will embed the visualization on a div with id="VizContainer"
+                options = {
                     device: devType,
-                };
-        
-        
-                function mediaSizer() {
-                // Determines the correct viz layout according to screen sizes.
-                    if (window.matchMedia("(max-width: 480px)").matches) {
-                        //alert("I am a phone layout!");
-                        devType = 'phone';
-                        vWidth = 415;
-                        vHeight = 950;
-                        //options.device = 'phone';
-                    } else if (window.matchMedia("(max-width: 980px)").matches) {
-                        //alert("I am a tablet layout!");
-                        devType = 'tablet';
-                        vWidth = 980;
-                        //options.device = 'tablet';
-                    } else {
-                        //alert("I am a desktop layout!");
-                        devType = 'desktop';
-                        vWidth = 1666;
-                        vHeight = 900;
-                        //options.device = 'desktop';
+                    width: vWidth,
+                    height: vHeight,
+                    hideTabs: true,
+                    hideToolbar: true,
+                    onFirstInteractive: function () {
+                        listenToMarksSelection();
                     }
-                    console.log("devtype: "+devType )
-                    console.log("launch0")
-                    launchViz(0);
-                    console.log("launch1")        
-                    launchViz(1);
-                    launchViz(2);
+                };
 
-       
-            
-                  
-                   
-                    // Launches the viz again with the new sizing at the current index of vizList.
-              }
-        
-        
-              function launchViz(vizNav) {
-                // JS object targeting a div in the html document. (vizNav) will pass navigation values to move back and forth across vizList.
-                console.log("vizContainer"+vizNav)
-                console.log("devtype: "+devType )
-                    var vizDiv = document.getElementById("vizContainer"+vizNav),
-                    // Will embed the visualization on a div with id="VizContainer"
-                    options = {
-                        device: devType,
-                        width: vWidth,
-                        height: vHeight,
-                        hideTabs: true,
-                        hideToolbar: true,
-                        onFirstInteractive: function () {
-                            listenToMarksSelection();
-                        }
-                    };
-                    
-        
-                    var vizURL = vizList[vizNav];
-                    // Dynamic URL returning the string from vizList at index = vizNav (viz to be displayed).
-        
-                            try {
-                                // Initializes the viz from the array with desired options. 
-                                viz = new tableau.Viz(vizDiv, vizURL, options);
-                        if (!viz) throw 'viz not initialized'
-                            }
-                            catch(err) {
-                                alert(err);
-                            }
-                            finally {
-                                console.log('whatever')
-                                console.count('initViz')
-                            }
-                    
-                }
-        
-        </script>
-    
-    
-    
-    
-    
+
+            var vizURL = vizList[vizNav];
+            // Dynamic URL returning the string from vizList at index = vizNav (viz to be displayed).
+
+            try {
+                // Initializes the viz from the array with desired options. 
+                viz = new tableau.Viz(vizDiv, vizURL, options);
+                if (!viz) throw 'viz not initialized'
+            }
+            catch (err) {
+                alert(err);
+            }
+            finally {
+                console.log('whatever')
+                console.count('initViz')
+            }
+
+        }
+
+    </script>
 
 
 
 
-    </head>
+
+
+
+
+
+</head>
 
 <body
     class="home page-template-default page page-id-128 elementor-default elementor-kit-7 elementor-page elementor-page-128 e--ua-blink e--ua-chrome e--ua-webkit"
@@ -893,19 +893,23 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-128 current_page_item menu-item-135">
                                             <a href="https://gruposalus.com.br/" aria-current="page"
-                                                class="elementor-item elementor-item-active">Home</a></li>
+                                                class="elementor-item elementor-item-active">Home</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136">
                                             <a href="https://gruposalus.com.br/grupo-salus/"
-                                                class="elementor-item">Grupo Salus</a></li>
+                                                class="elementor-item">Grupo Salus</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-137">
                                             <a href="https://gruposalus.com.br/nossas-marcas/"
-                                                class="elementor-item">Nossas Marcas</a></li>
+                                                class="elementor-item">Nossas Marcas</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-138">
                                             <a href="https://gruposalus.com.br/newsroom/"
-                                                class="elementor-item">Newsroom</a></li>
+                                                class="elementor-item">Newsroom</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-139">
                                             <a href="https://gruposalus.com.br/contato/"
@@ -919,15 +923,18 @@
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-140">
                                                     <a href="https://gruposalus.com.br/trabalhe-conosco/"
-                                                        class="elementor-sub-item">Trabalhe Conosco</a></li>
+                                                        class="elementor-sub-item">Trabalhe Conosco</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-153">
                                                     <a href="https://gruposalus.com.br/fornecedor/"
-                                                        class="elementor-sub-item">Seja um Fornecedor</a></li>
+                                                        class="elementor-sub-item">Seja um Fornecedor</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-154">
                                                     <a href="https://gruposalus.com.br/indique-um-ponto/"
-                                                        class="elementor-sub-item">Indique um Ponto</a></li>
+                                                        class="elementor-sub-item">Indique um Ponto</a>
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -947,19 +954,23 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-128 current_page_item menu-item-135">
                                             <a href="https://gruposalus.com.br/" aria-current="page"
-                                                class="elementor-item elementor-item-active" tabindex="-1">Home</a></li>
+                                                class="elementor-item elementor-item-active" tabindex="-1">Home</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136">
                                             <a href="https://gruposalus.com.br/grupo-salus/" class="elementor-item"
-                                                tabindex="-1">Grupo Salus</a></li>
+                                                tabindex="-1">Grupo Salus</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-137">
                                             <a href="https://gruposalus.com.br/nossas-marcas/" class="elementor-item"
-                                                tabindex="-1">Nossas Marcas</a></li>
+                                                tabindex="-1">Nossas Marcas</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-138">
                                             <a href="https://gruposalus.com.br/newsroom/" class="elementor-item"
-                                                tabindex="-1">Newsroom</a></li>
+                                                tabindex="-1">Newsroom</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-139">
                                             <a href="https://gruposalus.com.br/contato/"
@@ -1048,19 +1059,23 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-128 current_page_item menu-item-135">
                                             <a href="https://gruposalus.com.br/" aria-current="page"
-                                                class="elementor-item elementor-item-active">Home</a></li>
+                                                class="elementor-item elementor-item-active">Home</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136">
                                             <a href="https://gruposalus.com.br/grupo-salus/"
-                                                class="elementor-item">Grupo Salus</a></li>
+                                                class="elementor-item">Grupo Salus</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-137">
                                             <a href="https://gruposalus.com.br/nossas-marcas/"
-                                                class="elementor-item">Nossas Marcas</a></li>
+                                                class="elementor-item">Nossas Marcas</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-138">
                                             <a href="https://gruposalus.com.br/newsroom/"
-                                                class="elementor-item">Newsroom</a></li>
+                                                class="elementor-item">Newsroom</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-139">
                                             <a href="https://gruposalus.com.br/contato/"
@@ -1074,15 +1089,18 @@
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-140">
                                                     <a href="https://gruposalus.com.br/trabalhe-conosco/"
-                                                        class="elementor-sub-item">Trabalhe Conosco</a></li>
+                                                        class="elementor-sub-item">Trabalhe Conosco</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-153">
                                                     <a href="https://gruposalus.com.br/fornecedor/"
-                                                        class="elementor-sub-item">Seja um Fornecedor</a></li>
+                                                        class="elementor-sub-item">Seja um Fornecedor</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-154">
                                                     <a href="https://gruposalus.com.br/indique-um-ponto/"
-                                                        class="elementor-sub-item">Indique um Ponto</a></li>
+                                                        class="elementor-sub-item">Indique um Ponto</a>
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -1102,19 +1120,23 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-128 current_page_item menu-item-135">
                                             <a href="https://gruposalus.com.br/" aria-current="page"
-                                                class="elementor-item elementor-item-active" tabindex="-1">Home</a></li>
+                                                class="elementor-item elementor-item-active" tabindex="-1">Home</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136">
                                             <a href="https://gruposalus.com.br/grupo-salus/" class="elementor-item"
-                                                tabindex="-1">Grupo Salus</a></li>
+                                                tabindex="-1">Grupo Salus</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-137">
                                             <a href="https://gruposalus.com.br/nossas-marcas/" class="elementor-item"
-                                                tabindex="-1">Nossas Marcas</a></li>
+                                                tabindex="-1">Nossas Marcas</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-138">
                                             <a href="https://gruposalus.com.br/newsroom/" class="elementor-item"
-                                                tabindex="-1">Newsroom</a></li>
+                                                tabindex="-1">Newsroom</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-139">
                                             <a href="https://gruposalus.com.br/contato/"
@@ -1338,7 +1360,90 @@
                                         <p>Acesso, Conforto, Conveniência e Qualidade, levando experiência em prevenção,
                                             exames e tratamentos médicos, odontológicos e estéticos para as pessoas que
                                             buscam saúde e qualidade de vida.</p>
+
                                     </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section
+                    class="elementor-section elementor-top-section elementor-element elementor-element-633e2b73 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                    data-id="633e2b73" data-element_type="section">
+                    <div class="elementor-container elementor-column-gap-default">
+                        <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-18e9d789"
+                            data-id="18e9d789" data-element_type="column">
+                            <div class="elementor-widget-wrap elementor-element-populated">
+                                <div class="elementor-element elementor-element-645210ea elementor-widget elementor-widget-image"
+                                    data-id="645210ea" data-element_type="widget" data-widget_type="image.default">
+                                    <div class="elementor-widget-container">
+                                        <img width="609" height="609"
+                                            src="https://www.tableau.com/sites/default/files/2022-05/Screen_2_Elevate_Customer_Experiences.png"
+                                            class="attachment-large size-large" alt="" loading="lazy"
+                                            srcset="https://www.tableau.com/sites/default/files/2022-05/Screen_2_Elevate_Customer_Experiences.png 609w, https://www.tableau.com/sites/default/files/2022-05/Screen_2_Elevate_Customer_Experiences.png 300w, https://www.tableau.com/sites/default/files/2022-05/Screen_2_Elevate_Customer_Experiences.png 150w"
+                                            sizes="(max-width: 609px) 100vw, 609px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-3d670b8d"
+                            data-id="3d670b8d" data-element_type="column">
+                            <div class="elementor-widget-wrap elementor-element-populated">
+                                <div class="elementor-element elementor-element-12fd2167 elementor-widget elementor-widget-heading"
+                                    data-id="12fd2167" data-element_type="widget" data-widget_type="heading.default">
+                                    <div class="elementor-widget-container">
+                                        <h2 class="elementor-heading-title elementor-size-default">Crie um cockpit de administração entregando mais valor para seus franqueados.
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="elementor-element elementor-element-6e4c763d elementor-widget elementor-widget-text-editor"
+                                    data-id="6e4c763d" data-element_type="widget"
+                                    data-widget_type="text-editor.default">
+                                    <div class="elementor-widget-container">
+                                        <p>Incorpore e personalize os recursos interativos e de análise do Tableau para criar uma experiência perfeita com seus produtos. Aumente o engajamento com seu produto e melhore a satisfação do cliente integrando conteúdo, dados e análises avançadas diretamente ao seu produto. Diferenciar seu produto com análises incorporadas cria oportunidades para gerar receita adicional e monetizar seus dados.</p>
+                                    </div>
+                                    <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-2768ab25"
+                                    data-id="2768ab25" data-element_type="column">
+                                    <div class="elementor-widget-wrap elementor-element-populated">
+                                        <div class="elementor-element elementor-element-3cf3e98c elementor-align-right elementor-widget elementor-widget-button"
+                                            data-id="3cf3e98c" data-element_type="widget"
+                                            data-widget_type="button.default">
+                                            <div class="elementor-widget-container">
+                                                <div class="elementor-button-wrapper">
+                                                    <a href="https://www.tableau.com/pt-br/embedded-analytics"
+                                                        class="elementor-button-link elementor-button elementor-size-sm elementor-animation-grow"
+                                                        role="button">
+                                                        <span class="elementor-button-content-wrapper">
+                                                            <span class="elementor-button-text">Amplie seu potencial de crescimento</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a>-</a>
+                                    <div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-2768ab25"
+                                    data-id="2768ab25" data-element_type="column">
+                                    <div class="elementor-widget-wrap elementor-element-populated">
+                                        <div class="elementor-element elementor-element-3cf3e98c elementor-align-right elementor-widget elementor-widget-button"
+                                            data-id="3cf3e98c" data-element_type="widget"
+                                            data-widget_type="button.default">
+                                            <div class="elementor-widget-container">
+                                                <div class="elementor-button-wrapper">
+                                                    <a href="https://help.tableau.com/current/pro/desktop/en-us/embed.htm"
+                                                        class="elementor-button-link elementor-button elementor-size-sm elementor-animation-grow"
+                                                        role="button">
+                                                        <span class="elementor-button-content-wrapper">
+                                                            <span class="elementor-button-text">Leia mais sobre
+                                                                embedded</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -1346,8 +1451,9 @@
                 </section>
                 <div style="text-align: center;">
                     <div style="display: inline-block;">
-                        <div id="vizContainer0" ></div>
-                    </div></div>
+                        <div id="vizContainer0"></div>
+                    </div>
+                </div>
                 <section
                     class="elementor-section elementor-top-section elementor-element elementor-element-36245e62 elementor-hidden-tablet elementor-hidden-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                     data-id="36245e62" data-element_type="section"
@@ -1648,8 +1754,9 @@
                 </section>
                 <div style="text-align: center;">
                     <div style="display: inline-block;">
-                        <div id="vizContainer1" ></div>
-                    </div></div>
+                        <div id="vizContainer1"></div>
+                    </div>
+                </div>
                 <section
                     class="elementor-section elementor-top-section elementor-element elementor-element-102b9acf elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                     data-id="102b9acf" data-element_type="section"
@@ -2150,8 +2257,9 @@
                 </section>
                 <div style="text-align: center;">
                     <div style="display: inline-block;">
-                        <div id="vizContainer2" ></div>
-                    </div></div>
+                        <div id="vizContainer2"></div>
+                    </div>
+                </div>
                 <section
                     class="elementor-section elementor-top-section elementor-element elementor-element-5ac27b0d elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                     data-id="5ac27b0d" data-element_type="section"
@@ -2270,7 +2378,8 @@
                                             data-widget_type="text-editor.default">
                                             <div class="elementor-widget-container">
                                                 Cadastre-se em nossa newsletter <br>e receba informações e novidades
-                                                <br>sobre o Grupo Salus </div>
+                                                <br>sobre o Grupo Salus
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
