@@ -42,7 +42,7 @@
     <script type="text/worker"
         id="nitro-web-worker">var preloadRequests=0,remainingCount={},baseURI="";async function preload(e,o){if("undefined"!=typeof URL&&baseURI)try{e=new URL(e,baseURI).href}catch(e){console.log("Worker error: "+e.message)}console.log("Preloading "+e);try{var n=new Request(e,{mode:"no-cors",redirect:"follow"});await fetch(n),o()}catch(n){console.log(n);var a=new XMLHttpRequest;a.responseType="blob",a.onload=o,a.onerror=o,a.open("GET",e,!0),a.send()}}self.onmessage=function(e){switch(e.data.cmd){case"RESOURCE_PRELOAD":var o=e.data.requestId;remainingCount[o]=0,e.data.resources.forEach(function(e){preload(e,function(){console.log(o+" DONE: "+e),0==--remainingCount[o]&&self.postMessage({cmd:"RESOURCE_PRELOAD",requestId:o})}),remainingCount[o]++});break;case"SET_BASEURI":baseURI=e.data.uri}};</script>
     <script
-        id="nprl">var NPRL, NitroResourceLoader, NPh, NitroPackHelper; !function (e) { var t = e.prototype; t.after || (t.after = function () { var e, t = arguments, n = t.length, r = 0, o = this, i = o.parentNode, a = Node, c = String, u = document; if (null !== i) for (; r < n;)(e = t[r]) instanceof a ? null !== (o = o.nextSibling) ? i.insertBefore(e, o) : i.appendChild(e) : i.appendChild(u.createTextNode(c(e))), ++r }) }(Element), NPRL = NitroResourceLoader = function () { var e, t, n = window.URL || window.webkitURL, r = true, o = true, i = 2, a = null, c = null, u = null, d = null, s = null, l = ["touchmove", "touchend"], f = ["mousemove", "click", "keydown", "wheel"], m = !0, p = [], v = !1, h = [], g = 0, E = 0, y = !1, N = 0, b = null, L = !1, w = !1, R = !1, S = [], P = [], T = [], A = [], O = !1, I = {}, C = "noModule" in HTMLScriptElement.prototype; function M(e, t) { I[e] || (I[e] = []), I[e].push(t) } function k(e, t) { if (I[e]) for (var n = 0, r = I[e], n = 0; n < r.length; n++)r[n].call(this, t) } function x() { (function (e, t) { var n, r, o = null, i = function (e) { o(e) }, a = null, c = {}, u = null, d = null, s = 0; switch (e.addEventListener(t, function (n) { -1 != ["load", "DOMContentLoaded"].indexOf(t) ? (d && _(function () { e.triggerNitroEvent(t) }), u = !0) : "readystatechange" == t && (s++, NPh.ogReadyState = 1 == s ? "interactive" : "complete", d && d >= s && (NPh.documentReadyState = NPh.ogReadyState, _(function () { e.triggerNitroEvent(t) }))) }), e.addEventListener(t + "Nitro", function (e) { -1 != ["load", "DOMContentLoaded"].indexOf(t) ? (u || (e.preventDefault(), e.stopImmediatePropagation()), d = !0) : "readystatechange" == t && (d = "interactive" == NPh.documentReadyState ? 1 : 2, s < d && (e.preventDefault(), e.stopImmediatePropagation())) }), t) { case "load": a = "onload"; break; case "readystatechange": a = "onreadystatechange"; break; case "pageshow": a = "onpageshow"; break; default: a = null }a && Object.defineProperty(e, a, { get: function () { return o }, set: function (n) { "function" != typeof n ? (o = null, e.removeEventListener(t + "Nitro", i)) : (o || e.addEventListener(t + "Nitro", i), o = n) } }), Object.defineProperty(e, "addEventListener" + t, { value: function (n) { n != t || !NPh.startedScriptLoading || document.currentScript && document.currentScript.hasAttribute("nitro-exclude") || (arguments[0] += "Nitro"), e.ogAddEventListener.apply(e, arguments), c[arguments[1]] = arguments[0] } }), Object.defineProperty(e, "removeEventListener" + t, { value: function (t) { var n = c[arguments[1]]; arguments[0] = n, e.ogRemoveEventListener.apply(e, arguments) } }), Object.defineProperty(e, "triggerNitroEvent" + t, { value: function (t, n) { n = n || e; var r = new Event(t + "Nitro", { bubbles: !0 }); r.isNitroPack = !0, Object.defineProperty(r, "type", { get: function () { return t }, set: function () { } }), Object.defineProperty(r, "target", { get: function () { return n }, set: function () { } }), e.dispatchEvent(r) } }), void 0 === e.triggerNitroEvent && (n = e.addEventListener, r = e.removeEventListener, Object.defineProperty(e, "ogAddEventListener", { value: n }), Object.defineProperty(e, "ogRemoveEventListener", { value: r }), Object.defineProperty(e, "addEventListener", { value: function (t) { var r = "addEventListener" + t; void 0 !== e[r] ? e[r].apply(e, arguments) : n.apply(e, arguments) }, writable: !0 }), Object.defineProperty(e, "removeEventListener", { value: function (t) { var n = "removeEventListener" + t; void 0 !== e[n] ? e[n].apply(e, arguments) : r.apply(e, arguments) } }), Object.defineProperty(e, "triggerNitroEvent", { value: function (t, n) { var r = "triggerNitroEvent" + t; void 0 !== e[r] && e[r].apply(e, arguments) } })) }).apply(null, arguments) } requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame, x(window, "load"), x(window, "pageshow"), x(window, "DOMContentLoaded"), x(document, "DOMContentLoaded"), x(document, "readystatechange"); try { var j = new Worker(n.createObjectURL(new Blob([document.getElementById("nitro-web-worker").textContent], { type: "text/javascript" }))) } catch (e) { var j = new Worker("data:text/javascript;base64," + btoa(document.getElementById("nitro-web-worker").textContent)) } j.onmessage = function (e) { "RESOURCE_PRELOAD" == e.data.cmd && k(e.data.requestId, e) }, void 0 !== document.baseURI && j.postMessage({ cmd: "SET_BASEURI", uri: document.baseURI }); var B = function (e) { 0 == --g && _(D) }, q = function (e) { e.target.removeEventListener("load", q), e.target.removeEventListener("error", q), e.target.removeEventListener("nitroTimeout", q), "nitroTimeout" != e.type && clearTimeout(e.target.nitroTimeout), 0 == --E && 0 == g && _(U) }, H = function (e) { var t = e.textContent; try { var r = n.createObjectURL(new Blob([t.replace(/^(?:< !-- ) ?(.*?)(?:- ->)?$/gm ,"$1")] , {type :"text/javascript "}) ) }catc h(e ) {var  r ="data:text/javascript;base64, " +btoa(t.replace(/^(?:<!--)?(.*?)(?:-->)?$/gm ,"$1") ) }return  r} , D =functio n( ) {NPh.documentReadyStat e ="interactive" ,document.triggerNitroEvent("readystatechange") ,document.triggerNitroEvent("DOMContentLoaded") ,(window.pageYOffse t| |window.pageXOffset )& &window.dispatchEvent(new Event("scroll")) , w =!0 ,_(functio n( ) { 0= = E& &_(U) ,_(F )} )} , U =functio n( ) {i f( w& &!L ) {i f( L =!0 ,b.disconnect() ,Q() ,NPh.documentReadyStat e ="complete" ,document.triggerNitroEvent("readystatechange") ,window.triggerNitroEvent("load" ,document) ,window.triggerNitroEvent("pageshow" ,document) ,window.pageYOffse t| |window.pageXOffse t| |location.hash ) {i f(void  0!= =history.scrollRestoratio n& &"auto "= =history.scrollRestoratio n& &"undefined "! =typeof NPS H& &NPSH.getScrollPos( ) > 0& &window.pageYOffse t >. 5 *document.documentElement.clientHeight )window.scrollTo(0 ,NPSH.getScrollPos()) ;else i f(location.hash )tr y {let  e =document.querySelector(location.hash) ; e& &e.scrollIntoView( ) }catc h(e ) { } }_( 1= = i ? V :ee ) }} , _ =functio n(e ) {setTimeout(e ,0 )} , Y =functio n(e ) {("touchend "= =e.typ e| |"click "= =e.type )& &( s =e )} , F =functio n( ) {i f(s ) {var e ;setTimeout(( e =s ,functio n( ) {var t , n =functio n(e ,t ,n ) {var  r =new Event(e , {bubbles :!0 ,cancelable :! 0}) ;retur n"click "= = e ?(r.client X =t ,r.client Y =n ) :r.touche s =[ {clientX :t ,clientY : n}] , r} ;i f("touchend "= =e.type ) {var  r =e.changedTouches[0] ;( t =document.elementFromPoint(r.clientX ,r.clientY)).dispatchEvent(n("touchstart") ,r.clientX ,r.clientY) ,t.dispatchEvent(n("touchend") ,r.clientX ,r.clientY) ,t.dispatchEvent(n("click") ,r.clientX ,r.clientY ) }els e"click "= =e.typ e& &( t =document.elementFromPoint(e.clientX ,e.clientY)).dispatchEvent(n("click") ,e.clientX ,e.clientY )}) ,150) , s =nul l }} , G =functio n(e ) {i f("SCRIPT "= =e.tagNam e& &!e.hasAttribute("data-nitro-for-id" )& &!e.hasAttribute("nitro-document-write" )| |"IMG "= =e.tagNam e& &(e.hasAttribute("src" )| |e.hasAttribute("srcset") )| |"IFRAME "= =e.tagNam e& &e.hasAttribute("src" )| |"LINK "= =e.tagNam e& &e.hasAttribute("href" )& &e.hasAttribute("rel" )& &"stylesheet "= =e.getAttribute("rel") ) {var  t ="" ;switc h(e.tagName ) {cas e"LINK" : t =e.href ;break ;cas e"IMG" :i f(A.indexOf(e ) >-1 )return ; t =e.srcse t| |e.src ;break ;default : t =e.sr c}var  n =e.getAttribute("type") ;i f(( t| |"SCRIPT "== =e.tagName )& &("IMG "! =e.tagNam e& &"LINK "! =e.tagNam e| | 0!= =t.indexOf("data:" )& & 0!= =t.indexOf("blob:")) ) {i f("SCRIPT "= =e.tagNam e& & n& &"text/javascript "!= = n& &"application/javascript "!= = n& &("module "!= = n| |!C) )return ;i f("SCRIPT "== =e.tagName ) {i f(A.indexOf(e ) >- 1| |e.noModul e& &C )return ;i f(!e.src ) {i f(!(e.textContent.lengt h >0) )return ;e.textConten t+ ="\n;if(document.currentScript.nitroTimeout) {clearTimeout(document.currentScript.nitroTimeout);}; setTimeout(function() { this.dispatchEvent(new Event('load')); }.bind(document.currentScript), 0); " }A.push(e ) }e.hasOwnProperty("nitroTimeout" )| |(E++ ,e.addEventListener("load" ,q ,!0) ,e.addEventListener("error" ,q ,!0) ,e.addEventListener("nitroTimeout" ,q ,!0) ,e.nitroTimeou t =setTimeout(functio n( ) {console.log("Resource timed out" ,e) ,e.dispatchEvent(new Event("nitroTimeout") )} ,5e3) ) } }} , W =functio n(e ) {e.hasOwnProperty("nitroTimeout" )& &e.nitroTimeou t& &(clearTimeout(e.nitroTimeout) ,e.nitroTimeou t =null ,e.dispatchEvent(new Event("nitroTimeout")) )} ;document.documentElement.addEventListener("load" ,functio n(e ) {("SCRIPT "= =e.target.tagNam e| |"IMG "= =e.target.tagName )& &A.push(e.target )} ,!0) ,document.documentElement.addEventListener("error" ,functio n(e ) {("SCRIPT "= =e.target.tagNam e| |"IMG "= =e.target.tagName )& &A.push(e.target )} ,!0) ;var  X =["appendChild" ,"replaceChild" ,"insertBefore" ,"prepend" ,"append" ,"before" ,"after" ,"replaceWith" ,"insertAdjacentElement"] , K =functio n( ) {X.forEach(functio n(e ) {HTMLElement.prototype["og " +e ] =HTMLElement.prototype[e] ,HTMLElement.prototype[e ] =functio n(...t ) {i f(this.parentNod e| |thi s== =document.documentElement ) {switc h(e ) {cas e"replaceChild" :cas e"insertBefore" :t.pop() ;break ;cas e"insertAdjacentElement" :t.shift( )}t.forEach(functio n(e ) { e& &("SCRIPT "= =e.tagNam e ?G(e ) :e.childre n& &e.children.lengt h > 0& &e.querySelectorAll("script").forEach(G) )} ) }return this["og " +e].apply(this ,arguments ) }} )} , Q =functio n( ) {X.forEach(functio n(e ) {HTMLElement.prototype[e ] =HTMLElement.prototype["og " +e ]} )} , J =async functio n( ) {i f( o& &(eo(e) ,eo(Y) , u& &(clearTimeout(u) , u =null)) , 1== =N ) { y =!0 ;retur n } 0== = N& &( N =-1) ,NPh.startedScriptLoadin g =!0 ,Object.defineProperty(document ,"readyState" , {get :functio n( ) {return NPh.documentReadyStat e} ,set :functio n( ) { }}) ;var  t =document.documentElement ;( b =new MutationObserver(functio n(e ,t ) {e.forEach(functio n(e ) {i f("childList "= =e.typ e& &e.addedNodes.lengt h > 0& &e.addedNodes.forEach(functio n(e ) {document.documentElement.contains(e )& &("IMG "= =e.tagNam e| |"IFRAME "= =e.tagNam e| |"LINK "= =e.tagName )& &G(e )}) ,"childList "= =e.typ e& &e.removedNodes.lengt h > 0& &e.removedNodes.forEach(functio n(e ) {("IFRAME "= =e.tagNam e| |"LINK "= =e.tagName )& &W(e )}) ,"attributes "= =e.type ) {var  t =e.target ;document.documentElement.contains(t )& &("IFRAME "= =t.tagNam e| |"LINK "= =t.tagNam e| |"IMG "= =t.tagNam e| |"SCRIPT "= =t.tagName )& &G(t ) }} )})).observe(t , {attributes :!0 ,attributeFilter :["src"] ,childList :!0 ,subtree :! 0}) ,K() ,await Promise.all(S) ;fo r(var  n =h.shift() , r =null , i =!1 ;n; ) {var a , c =JSON.parse(atob(n.meta)) , d =c.delay ;i f("inline "= =n.type ) {var  s =document.getElementById(n.id) ;i f(s )s.remove() ;els e { n =h.shift() ;continu e }i f(! 1== =( a =H(s)) ) { n =h.shift() ;continu e } }else  a =n.src ;i f(! i& &"inline "! =n.typ e& &(void  0!= =c.attributes.asyn c| |void  0!= =c.attributes.defer )& &(nul l== = r ? r = n : r== = n& &( i =!0) ,!i) ) {h.push(n) , n =h.shift() ;continu e }var  l =document.createElement("script") ;fo r(var f in l.sr c =a ,l.setAttribute("data-nitro-for-id" ,n.id) ,c.attributes )tr y {! 1== =c.attributes[f ] ?l.setAttribute(f ,"" ) :l.setAttribute(f ,c.attributes[f] ) }catc h(e ) {console.log("Error while setting script attribute" ,l ,e ) }i f(l.asyn c =!1 ,d )setTimeout((functio n(e ,t ) {var  n =document.querySelector("[data-nitro-marker-id=' " + t +"']") ; n ?n.after(e ) :document.head.appendChild(e )}).bind(null ,l ,n.id) ,d) ;els e {l.addEventListener("load" ,B) ,l.addEventListener("error" ,B) ,(!l.noModul e| |!C )& &g++ ;var  m =document.querySelector("[data-nitro-marker-id=' " +n.i d +"']") ; m ?_(functio n(e ,t ) {return functio n( ) {e.after(t ) }}(m ,l) ) :_(functio n(e ) {return functio n( ) {document.head.appendChild(e ) }}(l) ) } n =h.shift( ) }} , $ =functio n( ) {var  e =document.getElementById("nitro-deferred-styles") , t =document.createElement("div") ;return t.innerHTM L =e.textContent , t} , V =async functio n(t ) {i f((isPreloa d = t& &"NitroPreload "= =t.type )| |( N =-1 , m =!1 , o& &(eo(e) ,eo(Y) , u& &(clearTimeout(u) , u =null))) ,! 1== =v ) {var  n =$() ;i f( v =n.querySelectorAll('style,link[rel="stylesheet"]').length ) {let  e =document.getElementById("nitro-deferred-styles-marker") ;e.replaceWith.apply(e ,n.childNodes ) }else isPreloa d ?_(et ) :en( ) }else  0!= = v| |isPreloa d| |en( )} , z =functio n( ) {fo r(var e , t =$().childNodes , n =[] , r =0 ; r <t.length ;r++)( e =t[r]).hre f& &n.push(e.href) ;var  o ="css-preload" ;M(o ,functio n(e ) {V(new Event("NitroPreload") )}) ,n.lengt h ?j.postMessage( {cmd :"RESOURCE_PRELOAD" ,resources :n ,requestId : o} ) :_(functio n( ) {k(o )} )} , Z =functio n( ) {i f(- 1!= =N ) { N =1 ;fo r(var e ,t , n =[] , r =0 ; r <h.length ;r++)i f("inline "! =( e =h[r]).typ e& &e.src ) {i f(( t =JSON.parse(atob(e.meta))).dela y| |t.attributes.typ e& &"module "= =t.attributes.typ e& &!C )continue ;n.push(e.src ) }i f(n.length ) {var  o ="js-preload" ;M(o ,functio n(e ) { N =2 , y& &_(J )}) ,j.postMessage( {cmd :"RESOURCE_PRELOAD" ,resources :n ,requestId : o} ) } }} ,e e =functio n( ) {fo r( ;P.length;)(styl e =P.shift()).hasAttribute("nitropack-onload" )& &(style.setAttribute("onload" ,style.getAttribute("nitropack-onload")) ,_(functio n(e ) {return functio n( ) {e.dispatchEvent(new Event("load") ) }}(style))) ;fo r( ;T.length;)(styl e =T.shift()).hasAttribute("nitropack-onerror" )& &(style.setAttribute("onerror" ,style.getAttribute("nitropack-onerror")) ,_(functio n(e ) {return functio n( ) {e.dispatchEvent(new Event("error") ) }}(style)) )} ,e t =functio n( ) { O| |( r& &_(functio n( ) {var  e =document.getElementById("nitro-critical-css") ; e& &e.remove( )}) , O =!0 ,(onStylesLoadEven t =new Event("NitroStylesLoaded")).isNitroPac k =!0 ,window.dispatchEvent(onStylesLoadEvent) )} ,e n =functio n( ) { 2= = i ?_(J ) :ee( )} ,e r =functio n(e ) {t.forEach(functio n(t ) {document.addEventListener(t ,e ,!0 )} )} ,e o =functio n(e ) {t.forEach(functio n(t ) {document.removeEventListener(t ,e ,!0 )} )} ;retur n {setAutoRemoveCriticalCss :functio n(e ) { r = e} ,registerScript :functio n(e ,t ,n ) {h.push( {type :"remote" ,src :e ,id :t ,meta : n} )} ,registerInlineScript :functio n(e ,t ) {h.push( {type :"inline" ,id :e ,meta : t} )} ,registerStyle :functio n(e ,t ,n ) {p.push( {href :e ,rel :t ,media : n} )} ,onLoadStyle :functio n(e ) {P.push(e) ,! 1!= = v& & 0= =-- v& &(_(et) , m ? m =! 1 :en() )} ,onErrorStyle :functio n(e ) {T.push(e) ,! 1!= = v& & 0= =-- v& &(_(et) , m ? m =! 1 :en() )} ,loadJs :functio n(e ,t ) {i f(!e.src ) {var  n =H(e) ;! 1!= = n& &(e.sr c =n ,e.textConten t ="" ) } t ?_(functio n( ) {t.after(e )} ) :_(functio n( ) {document.head.appendChild(e )} )} ,loadQueuedResources :async functio n( ) {window.dispatchEvent(new Event("NitroBootStart")) , d& &(clearTimeout(d) , d =null) ,window.removeEventListener("load" ,NPRL.loadQueuedResources) , e = 1= = i ? J :V ,! o| | s ?_(e ) :(- 1= =navigator.userAgent.indexOf(" Edge/" )& &(z() ,M("css-preload" ,Z)) ,er(e) , c& & a& &( u =setTimeout(e ,a)) )} ,fontPreload :functio n(e ) {var  t ="critical-fonts" ;M(t ,functio n(e ) {document.getElementById("nitro-critical-fonts").typ e ="text/css "}) ,j.postMessage( {cmd :"RESOURCE_PRELOAD" ,resources :e ,requestId : t} )} ,boot :functio n( ) { R ="undefined "! =typeof NPS H& &NPSH.isScrolled() ,(location.has h| |R )& &( o =!1) , t =f.concat(l) , d =setTimeout(NPRL.loadQueuedResources ,1500) ,er(Y) , R ?NPRL.loadQueuedResources( ) :window.addEventListener("load" ,NPRL.loadQueuedResources )} ,addPrerequisite :functio n(e ) {S.push(e ) } }}() ,NP h =NitroPackHelpe r =functio n( ) {var  e =document.write ;retur n {documentWrite :functio n(t ,n ) {i f( t& &t.hasAttribute("nitro-exclude") )return e.call(document ,n) ;var  r =null ;t.documentWriteContaine r ? r =t.documentWriteContaine r :( r =document.createElement("span") ,t.documentWriteContaine r =r) ;var  o =null ; t& &( o =t.hasAttribute("data-nitro-for-id" ) ?document.querySelector('template[data-nitro-marker-id=" ' +t.getAttribute("data-nitro-for-id" ) +'"]' ) :t) ,r.innerHTM L+ =n ,r.querySelectorAll("script").forEach(functio n(e ) {e.setAttribute("nitro-document-write" ,"" )}) ,r.parentNod e| |( o ?o.parentNode.insertBefore(r ,o ) :document.body.appendChild(r)) ;var  i =document.createElement("span") ;i.innerHTM L =n ;var  a =i.querySelectorAll("script") ;a.lengt h& &a.forEach(functio n(e ) {var  t =e.getAttributeNames() , n =document.createElement("script") ;t.forEach(functio n(t ) {n.setAttribute(t ,e.getAttribute(t) )}) ,n.asyn c =!1 ,!e.sr c& &e.textConten t& &(n.textConten t =e.textContent) ,NPRL.loadJs(n ,o )} )} ,TrustLogo :functio n(e ,t ) {var  n =document.getElementById(e) , r =document.createElement("img") ;r.sr c =t ,n.parentNode.insertBefore(r ,n )} ,documentReadyState :"loading" ,ogReadyState :document.readyState ,startedScriptLoading :!1 ,loadScriptDelayed :functio n(e ,t ) {setTimeout(functio n( ) {var  t =document.createElement("script") ;t.sr c =e ,document.head.appendChild(t )} ,t ) } }}() ,document.writ e =functio n(e ) {NPh.documentWrite(document.currentScript ,e )} ,document.writel n =functio n(e ) {NPh.documentWrite(document.currentScript , e +"\n" )};</script>
+        id="nprl">var NPRL, NitroResourceLoader, NPh, NitroPackHelper; !function (e) { var t = e.prototype; t.after || (t.after = function () { var e, t = arguments, n = t.length, r = 0, o = this, i = o.parentNode, a = Node, c = String, u = document; if (null !== i) for (; r < n;)(e = t[r]) instanceof a ? null !== (o = o.nextSibling) ? i.insertBefore(e, o) : i.appendChild(e) : i.appendChild(u.createTextNode(c(e))), ++r }) }(Element), NPRL = NitroResourceLoader = function () { var e, t, n = window.URL || window.webkitURL, r = true, o = true, i = 2, a = null, c = null, u = null, d = null, s = null, l = ["touchmove", "touchend"], f = ["mousemove", "click", "keydown", "wheel"], m = !0, p = [], v = !1, h = [], g = 0, E = 0, y = !1, N = 0, b = null, L = !1, w = !1, R = !1, S = [], P = [], T = [], A = [], O = !1, I = {}, C = "noModule" in HTMLScriptElement.prototype; function M(e, t) { I[e] || (I[e] = []), I[e].push(t) } function k(e, t) { if (I[e]) for (var n = 0, r = I[e], n = 0; n < r.length; n++)r[n].call(this, t) } function x() { (function (e, t) { var n, r, o = null, i = function (e) { o(e) }, a = null, c = {}, u = null, d = null, s = 0; switch (e.addEventListener(t, function (n) { -1 != ["load", "DOMContentLoaded"].indexOf(t) ? (d && _(function () { e.triggerNitroEvent(t) }), u = !0) : "readystatechange" == t && (s++, NPh.ogReadyState = 1 == s ? "interactive" : "complete", d && d >= s && (NPh.documentReadyState = NPh.ogReadyState, _(function () { e.triggerNitroEvent(t) }))) }), e.addEventListener(t + "Nitro", function (e) { -1 != ["load", "DOMContentLoaded"].indexOf(t) ? (u || (e.preventDefault(), e.stopImmediatePropagation()), d = !0) : "readystatechange" == t && (d = "interactive" == NPh.documentReadyState ? 1 : 2, s < d && (e.preventDefault(), e.stopImmediatePropagation())) }), t) { case "load": a = "onload"; break; case "readystatechange": a = "onreadystatechange"; break; case "pageshow": a = "onpageshow"; break; default: a = null }a && Object.defineProperty(e, a, { get: function () { return o }, set: function (n) { "function" != typeof n ? (o = null, e.removeEventListener(t + "Nitro", i)) : (o || e.addEventListener(t + "Nitro", i), o = n) } }), Object.defineProperty(e, "addEventListener" + t, { value: function (n) { n != t || !NPh.startedScriptLoading || document.currentScript && document.currentScript.hasAttribute("nitro-exclude") || (arguments[0] += "Nitro"), e.ogAddEventListener.apply(e, arguments), c[arguments[1]] = arguments[0] } }), Object.defineProperty(e, "removeEventListener" + t, { value: function (t) { var n = c[arguments[1]]; arguments[0] = n, e.ogRemoveEventListener.apply(e, arguments) } }), Object.defineProperty(e, "triggerNitroEvent" + t, { value: function (t, n) { n = n || e; var r = new Event(t + "Nitro", { bubbles: !0 }); r.isNitroPack = !0, Object.defineProperty(r, "type", { get: function () { return t }, set: function () { } }), Object.defineProperty(r, "target", { get: function () { return n }, set: function () { } }), e.dispatchEvent(r) } }), void 0 === e.triggerNitroEvent && (n = e.addEventListener, r = e.removeEventListener, Object.defineProperty(e, "ogAddEventListener", { value: n }), Object.defineProperty(e, "ogRemoveEventListener", { value: r }), Object.defineProperty(e, "addEventListener", { value: function (t) { var r = "addEventListener" + t; void 0 !== e[r] ? e[r].apply(e, arguments) : n.apply(e, arguments) }, writable: !0 }), Object.defineProperty(e, "removeEventListener", { value: function (t) { var n = "removeEventListener" + t; void 0 !== e[n] ? e[n].apply(e, arguments) : r.apply(e, arguments) } }), Object.defineProperty(e, "triggerNitroEvent", { value: function (t, n) { var r = "triggerNitroEvent" + t; void 0 !== e[r] && e[r].apply(e, arguments) } })) }).apply(null, arguments) } requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame, x(window, "load"), x(window, "pageshow"), x(window, "DOMContentLoaded"), x(document, "DOMContentLoaded"), x(document, "readystatechange"); try { var j = new Worker(n.createObjectURL(new Blob([document.getElementById("nitro-web-worker").textContent], { type: "text/javascript" }))) } catch (e) { var j = new Worker("data:text/javascript;base64," + btoa(document.getElementById("nitro-web-worker").textContent)) } j.onmessage = function (e) { "RESOURCE_PRELOAD" == e.data.cmd && k(e.data.requestId, e) }, void 0 !== document.baseURI && j.postMessage({ cmd: "SET_BASEURI", uri: document.baseURI }); var B = function (e) { 0 == --g && _(D) }, q = function (e) { e.target.removeEventListener("load", q), e.target.removeEventListener("error", q), e.target.removeEventListener("nitroTimeout", q), "nitroTimeout" != e.type && clearTimeout(e.target.nitroTimeout), 0 == --E && 0 == g && _(U) }, H = function (e) { var t = e.textContent; try { var r = n.createObjectURL(new Blob([t.replace(/^(?:< !-- ) ?(.*?)(?:- ->)?$/gm, "$1")], { type: "text/javascript " })) }catc h(e) { var r = "data:text/javascript;base64, " + btoa(t.replace(/^(?:< !-- ) ?(.*?)(?:- ->)?$/g  ,"$1") )  }retur   r , D  =functio n )  {NPh.documentReadyStat e  ="interactive  ,document.triggerNitroEvent("readystatechange"  ,document.triggerNitroEvent("DOMContentLoaded"  ,(window.pageYOffse  t|  |window.pageXOffset )&  &window.dispatchEvent(new Event("scroll") , w  =!  ,_(functio n ) { 0= =  E&  &_(U  ,_(  )  ) , U  =functio n ) {i f  w&  &! ) {i f L  =!  ,b.disconnect(  ,Q(  ,NPh.documentReadyStat e  ="complete  ,document.triggerNitroEvent("readystatechange"  ,window.triggerNitroEvent("load  ,document  ,window.triggerNitroEvent("pageshow  ,document  ,window.pageYOffse  t|  |window.pageXOffse  t|  |location.has ) {i f(voi   0!= =history.scrollRestoratio  n&  &"auto "= =history.scrollRestoratio  n&  &"undefined "! =typeof NPS  H&  &NPSH.getScrollPos ) >  0&  &window.pageYOffse t >. 5  *document.documentElement.clientHeigh )window.scrollTo(  ,NPSH.getScrollPos() ;else i f(location.has )tr y  {le  e  =document.querySelector(location.hash ;  e&  &e.scrollIntoView ) }catc h( ) { }  }_  1= = i ? V  :e )  }} , _  =functio n( )  {setTimeout(  ,  )} , Y  =functio n( )  {("touchend  "=  =e.typ  e|  |"click "= =e.type )&  & s  =  )} , F  =functio n ) {i f( )  {var   ;setTimeout( e  =  ,functio n )  {var  , n =functio n(  ,  , )  {va  r  =new Event( ,  {bubble  :!  ,cancelabl  :  0} ;retur n"click  "= = e  ?(r.client X  =  ,r.client Y  =n )  :r.touche s  =  {client  :  ,client :  n} ,  r ;i f("touchend  "=  =e.typ )  {va  r  =e.changedTouches[0  ; t  =document.elementFromPoint(r.client  ,r.clientY)).dispatchEvent(n("touchstart"  ,r.client  ,r.clientY  ,t.dispatchEvent(n("touchend"  ,r.client  ,r.clientY  ,t.dispatchEvent(n("click"  ,r.client  ,r.client ) }els e"click  "=  =e.typ  e&  & t  =document.elementFromPoint(e.client  ,e.clientY)).dispatchEvent(n("click"  ,e.client  ,e.client  )})  ,150) , s  =nul l }} , G  =functio n( ) {i f("SCRIPT  "=  =e.tagNam  e&  &!e.hasAttribute("data-nitro-for-id  )&  &!e.hasAttribute("nitro-document-write  )|  |"IMG "= =e.tagNam  e&  &(e.hasAttribute("src  )|  |e.hasAttribute("srcset"  )|  |"IFRAME "= =e.tagNam  e&  &e.hasAttribute("src  )|  |"LINK "= =e.tagNam  e&  &e.hasAttribute("href  )&  &e.hasAttribute("rel  )&  &"stylesheet "= =e.getAttribute("rel" )  {va  t  =" ;switc h(e.tagNam ) {cas e"LINK" : t  =e.hre  ;brea ;cas e"IMG" :i f(A.indexOf( )  >- )retur ; t  =e.srcse  t|  |e.sr  ;brea ;default : t  =e.sr  c }va  n  =e.getAttribute("type" ;i f(  t|  |"SCRIPT  "==  =e.tagNam  )&  &("IMG "!  =e.tagNam  e&  &"LINK "! =e.tagNam  e| |  0!= =t.indexOf("data:  )& &  0!= =t.indexOf("blob:")) ) {i f("SCRIPT  "=  =e.tagNam  e& &  n&  &"text/javascript  "!= =  n&  &"application/javascript  "!= =  n&  &("module  "!= =  n|  |!C)  )retur ;i f("SCRIPT  "== =e.tagNam ) {i f(A.indexOf( )  >-  1|  |e.noModul  e&  & )retur ;i f(!e.sr ) {i f(!(e.textContent.lengt h  >0)  )retur  ;e.textConten  t+ ="\n;if(document.currentScript.nitroTimeout) {clearTimeout(document.currentScript.nitroTimeout);}; setTimeout(function() { this.dispatchEvent(new Event('load')); }.bind(document.currentScript), 0); "  }A.push( )  }e.hasOwnProperty("nitroTimeout  )|  |(E+  ,e.addEventListener("load  ,  ,!0  ,e.addEventListener("error  ,  ,!0  ,e.addEventListener("nitroTimeout  ,  ,!0  ,e.nitroTimeou t  =setTimeout(functio n )  {console.log("Resource timed out  ,e  ,e.dispatchEvent(new Event("nitroTimeout"  )  ,5e3) ) }  }} , W  =functio n( )  {e.hasOwnProperty("nitroTimeout  )&  &e.nitroTimeou  t&  &(clearTimeout(e.nitroTimeout  ,e.nitroTimeou t  =nul  ,e.dispatchEvent(new Event("nitroTimeout"))  )  ;document.documentElement.addEventListener("load  ,functio n( ) {("SCRIPT  "=  =e.target.tagNam  e|  |"IMG "= =e.target.tagNam  )&  &A.push(e.targe )}  ,!0  ,document.documentElement.addEventListener("error  ,functio n( ) {("SCRIPT  "=  =e.target.tagNam  e|  |"IMG "= =e.target.tagNam  )&  &A.push(e.targe )}  ,!0  ;va  X  =["appendChild  ,"replaceChild  ,"insertBefore  ,"prepend  ,"append  ,"before  ,"after  ,"replaceWith  ,"insertAdjacentElement" , K  =functio n )  {X.forEach(functio n( )  {HTMLElement.prototype["og "  + ]  =HTMLElement.prototype[e  ,HTMLElement.prototype[ ]  =functio n(... ) {i f(this.parentNod  e|  |thi  s== =document.documentElemen ) {switc h( ) {cas e"replaceChild" :cas e"insertBefore"  :t.pop(  ;brea ;cas e"insertAdjacentElement"  :t.shift  ) }t.forEach(functio n( ) { e&  &("SCRIPT  "=  =e.tagNam e  ?G( )  :e.childre  n&  &e.children.lengt h >  0&  &e.querySelectorAll("script").forEach(G  )} ) }return this["og "  +e].apply(thi  ,argument ) }} )} , Q  =functio n )  {X.forEach(functio n( )  {HTMLElement.prototype[ ]  =HTMLElement.prototype["og "  +  ]  )} , J  =async functio n ) {i f  o&  &(eo(e  ,eo(Y ,  u&  &(clearTimeout(u , u  =null) ,  1== = ) { y  =! ;retur n }  0== =  N&  & N  =-1  ,NPh.startedScriptLoadin g  =!  ,Object.defineProperty(documen  ,"readyState ,  {ge  :functio n )  {return NPh.documentReadyStat  e  ,se  :functio n ) {  }}  ;va  t  =document.documentElemen  ; b  =new MutationObserver(functio n(  , )  {e.forEach(functio n( )  {i f("childList "= =e.typ e&  &e.addedNodes.lengt h >  0&  &e.addedNodes.forEach(functio n( )  {document.documentElement.contains(  )&  &("IMG  "=  =e.tagNam e|  |"IFRAME "= =e.tagNam  e|  |"LINK "= =e.tagNam  )&  &G( )}  ,"childList  "=  =e.typ  e&  &e.removedNodes.lengt h >  0&  &e.removedNodes.forEach(functio n( ) {("IFRAME  "=  =e.tagNam  e|  |"LINK "= =e.tagNam  )&  &W( )})  ,"attributes  "=  =e.type )  {va  t  =e.targe  ;document.documentElement.contains(  )&  &("IFRAME  "=  =t.tagNam  e|  |"LINK "= =t.tagNam  e|  |"IMG "= =t.tagNam  e|  |"SCRIPT "= =t.tagName )&  &G( ) }} )})).observe( ,  {attribute  :!  ,attributeFilte  :["src"  ,childLis  :!  ,subtre  :  0}  ,K(  ,await Promise.all(S ;fo r(va  n  =h.shift( , r  =nul , i  =!  ;n; )  {var  , c  =JSON.parse(atob(n.meta) , d  =c.dela ;i f("inline  "=  =n.typ )  {va  s  =document.getElementById(n.id ;i f( )s.remove( ;els e { n  =h.shift( ;continu e }i f(  1== = a  =H(s) ) { n  =h.shift( ;continu e } }els  a  =n.sr ;i f(  i&  &"inline "! =n.typ  e&  &(voi   0!= =c.attributes.asyn  c|  |voi   0!= =c.attributes.defe  )&  &(nul  l== = r ? r = n :  r== =  n&  & i  =!0  ,!i) )  {h.push(n , n  =h.shift( ;continu e  }va  l  =document.createElement("script" ;fo r(var f in l.sr c  =  ,l.setAttribute("data-nitro-for-id  ,n.id  ,c.attributes )tr y  {  1== =c.attributes[ ]  ?l.setAttribute(  ," )  :l.setAttribute(  ,c.attributes[f ) }catc h( )  {console.log("Error while setting script attribute  ,  , ) }i f(l.asyn c  =!  , )setTimeout((functio n(  , )  {var  n  =document.querySelector("[data-nitro-marker-id=' " + t  +"']") ;  ?n.after( )  :document.head.appendChild(  )}).bind(nul  ,  ,n.id  ,d ;els e  {l.addEventListener("load  ,B  ,l.addEventListener("error  ,B  ,(!l.noModul  e|  |!C )&  &g+  ;va  m  =document.querySelector("[data-nitro-marker-id=' "  +n.i d  +"']" ; m  ?_(functio n(  , )  {return functio n )  {e.after( )  }}(  ,l )  :_(functio n( )  {return functio n )  {document.head.appendChild( )  }}(l ) } n  =h.shift ) }} , $  =functio n )  {va  e  =document.getElementById("nitro-deferred-styles" , t  =document.createElement("div"  ;return t.innerHTM L  =e.textConten ,  t} , V  =async functio n( ) {i f((isPreloa d =  t&  &"NitroPreload "= =t.typ  )|  | N  =- , m  =! ,  o&  &(eo(e  ,eo(Y ,  u&  &(clearTimeout(u , u  =null))  ,  1== =v )  {va  n  =$( ;i f v  =n.querySelectorAll('style,link[rel="stylesheet"]').lengt )  {le  e  =document.getElementById("nitro-deferred-styles-marker"  ;e.replaceWith.apply(  ,n.childNode ) }else isPreloa d  ?_(e )  :en ) }els   0!= =  v|  |isPreloa  d|  |en  )} , z  =functio n ) {fo r(var  , t  =$().childNode , n  =[ , r  = ; r  <t.lengt  ;r++ ) e  =t[r]).hre  f&  &n.push(e.href  ;va  o  ="css-preload  ;M(  ,functio n( )  {V(new Event("NitroPreload"  )})  ,n.lengt h  ?j.postMessage  {cm  :"RESOURCE_PRELOAD  ,resource  :  ,requestI :  o )  :_(functio n )  {k(  ) )} , Z  =functio n ) {i f(-  1!= = ) { N  = ;fo r(var   , , n  =[ , r  = ; r  <h.lengt  ;r++)i f("inline "!  = e  =h[r]).typ  e&  &e.sr ) {i f( t  =JSON.parse(atob(e.meta))).dela  y|  |t.attributes.typ  e&  &"module "= =t.attributes.typ  e&  &! )continu  ;n.push(e.sr ) }i f(n.lengt )  {va  o  ="js-preload  ;M(  ,functio n( ) { N = , y&  &_( )})  ,j.postMessage  {cm  :"RESOURCE_PRELOAD  ,resource  :  ,requestI :  o ) } }} ,e e  =functio n ) {fo r(  ;P.length; )(styl e  =P.shift()).hasAttribute("nitropack-onload  )&  &(style.setAttribute("onload  ,style.getAttribute("nitropack-onload")  ,_(functio n( )  {return functio n )  {e.dispatchEvent(new Event("load" )  }}(style)) ;fo r(  ;T.length; )(styl e  =T.shift()).hasAttribute("nitropack-onerror  )&  &(style.setAttribute("onerror  ,style.getAttribute("nitropack-onerror")  ,_(functio n( )  {return functio n )  {e.dispatchEvent(new Event("error" )  }}(style)  )} ,e t  =functio n ) {  O|  |  r&  &_(functio n )  {var  e  =document.getElementById("nitro-critical-css") ; e&  &e.remove )}) , O  =!  ,(onStylesLoadEven t  =new Event("NitroStylesLoaded")).isNitroPac k  =!  ,window.dispatchEvent(onStylesLoadEvent) )} ,e n  =functio n ) {  2= = i  ?_( )  :ee  )} ,e r  =functio n( )  {t.forEach(functio n( )  {document.addEventListener(  ,  ,!  )  )} ,e o  =functio n( )  {t.forEach(functio n( )  {document.removeEventListener(  ,  ,!  )  ) ;retur n  {setAutoRemoveCriticalCs :functio n( ) { r =  e}  ,registerScrip :functio n(  ,  , )  {h.push  {typ  :"remote  ,sr  :  ,i  :  ,met :  n  )}  ,registerInlineScrip :functio n(  , )  {h.push  {typ  :"inline  ,i  :  ,met :  t  )}  ,registerStyl :functio n(  ,  , )  {p.push  {hre  :  ,re  :  ,medi :  n  )}  ,onLoadStyl :functio n( )  {P.push(e  ,  1!= =  v& & 0= =-  v&  &(_(et , m ? m  = 1  :en(  )}  ,onErrorStyl :functio n( )  {T.push(e  ,  1!= =  v& & 0= =-  v&  &(_(et , m ? m  = 1  :en(  )}  ,loadJ :functio n(  , ) {i f(!e.sr )  {va  n  =H(e  ;  1!= =  n&  &(e.sr c  =  ,e.textConten t  ="" ) } t  ?_(functio n )  {t.after(  ) )  :_(functio n )  {document.head.appendChild(  )  )}  ,loadQueuedResource :async functio n )  {window.dispatchEvent(new Event("NitroBootStart") ,  d&  &(clearTimeout(d , d  =null  ,window.removeEventListener("load  ,NPRL.loadQueuedResources , e =  1= = i ? J  :  ,  o| | s  ?_( )  :(- 1=  =navigator.userAgent.indexOf(" Edge/  )&  &(z(  ,M("css-preload  ,Z)  ,er(e ,  c& &  a&  & u  =setTimeout(  ,a))  )}  ,fontPreloa :functio n( )  {va  t  ="critical-fonts  ;M(  ,functio n( )  {document.getElementById("nitro-critical-fonts").typ e ="text/css  "}  ,j.postMessage  {cm  :"RESOURCE_PRELOAD  ,resource  :  ,requestI :  t  )}  ,boo :functio n ) { R  ="undefined "!  =typeof NPS  H&  &NPSH.isScrolled(  ,(location.has  h|  |R )&  & o  =!1 , t  =f.concat(l , d  =setTimeout(NPRL.loadQueuedResource  ,1500  ,er(Y , R  ?NPRL.loadQueuedResources )  :window.addEventListener("load  ,NPRL.loadQueuedResource  )}  ,addPrerequisit :functio n( )  {S.push( ) } }}(  ,NP h  =NitroPackHelpe r  =functio n )  {va  e  =document.writ ;retur n  {documentWrit :functio n(  , ) {i f  t&  &t.hasAttribute("nitro-exclude" )return e.call(documen  ,n  ;va  r  =nul  ;t.documentWriteContaine r ? r  =t.documentWriteContaine   : r  =document.createElement("span"  ,t.documentWriteContaine r  =r  ;va  o  =nul ;  t&  & o  =t.hasAttribute("data-nitro-for-id )  ?document.querySelector('template[data-nitro-marker-id=" '  +t.getAttribute("data-nitro-for-id )  +'"] )  :t  ,r.innerHTM  L+ =  ,r.querySelectorAll("script").forEach(functio n( )  {e.setAttribute("nitro-document-write  ,"  )}  ,r.parentNod  e|  | o  ?o.parentNode.insertBefore(  , )  :document.body.appendChild(r)  ;va  i  =document.createElement("span"  ;i.innerHTM L  =  ;va  a  =i.querySelectorAll("script"  ;a.lengt  h&  &a.forEach(functio n( )  {var  t  =e.getAttributeNames( , n =document.createElement("script")  ;t.forEach(functio n( )  {n.setAttribute(  ,e.getAttribute(t  )}  ,n.asyn c =! ,!e.sr  c&  &e.textConten  t&  &(n.textConten t  =e.textContent  ,NPRL.loadJs(  ,  )}  )}  ,TrustLog :functio n(  , )  {va  n  =document.getElementById(e , r  =document.createElement("img"  ;r.sr c  =  ,n.parentNode.insertBefore(  ,  )}  ,documentReadyStat  :"loading  ,ogReadyState  :document.readyStat  ,startedScriptLoading  :!  ,loadScriptDelayed :functio n(  , )  {setTimeout(functio n )  {var  t  =document.createElement("script")  ;t.sr c =  ,document.head.appendChild(  )  , ) } }}(  ,document.writ e  =functio n( )  {NPh.documentWrite(document.currentScrip  ,  )}  ,document.writel n  =functio n( )  {NPh.documentWrite(document.currentScrip , e  +"\n  )};</script>
     <style id="wp-emoji-styles-inline-css" onload="NPRL.onLoadStyle(this)" onerror="NPRL.onErrorStyle(this)">
         img.wp-smiley,
         img.emoji {
@@ -2557,111 +2557,111 @@
 
 
 
-        <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.8.0.min.js"></script>
-                                        
-                                        <script type="text/javascript">
-                                        
-                                        window.addEventListener("load", mediaSizer);
-                                                //window.addEventListener("resize", mediaSizer);
-                                                // Listeners that will react when the page first loads or is resized.
-                                                // If any of these events take place the mediaSizer() function executes.
-                                        
-                                                var vizList = [
-                                        
-                                                            "https://public.tableau.com/views/resultadosalus/Resultados?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link",
-                                                            "https://public.tableau.com/views/HUMANRESOURCES-HRExpensesDashboardBrasilsalus/Cockpit?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link",
-                                                            "https://demo.tableau.com/t/LuizOliveira/views/FinanasCorporativas-PainelDemonstrativoFinanceiro_16578110330000/Cockpit-Finance?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link"
-                                    
-                                        
-                                                        ];
-                                                // Array of Tableau Server URLs for dashboard or sheet navigation.
-                                            
-                                                var viz,
-                                                    vizLen = vizList.length,
-                                                    vizCount = 0,
-                                                    devType;
-                                                var options = {
-                                                    device: devType,
-                                                };
-                                        
-                                        
-                                                function mediaSizer() {
-                                                // Determines the correct viz layout according to screen sizes.
-                                                    if (window.matchMedia("(max-width: 480px)").matches) {
-                                                        //alert("I am a phone layout!");
-                                                        devType = 'phone';
-                                                        vWidth = 415;
-                                                        vHeight = 2000;
-                                                        //options.device = 'phone';
-                                                    } else if (window.matchMedia("(max-width: 980px)").matches) {
-                                                        //alert("I am a tablet layout!");
-                                                        devType = 'tablet';
-                                                        vWidth = 980;
-                                                        //options.device = 'tablet';
-                                                    } else {
-                                                        //alert("I am a desktop layout!");
-                                                        devType = 'desktop';
-                                                        vWidth = 1600;
-                                                        vHeight = 900;
-                                                        //options.device = 'desktop';
-                                                    }
-                                                    console.log("devtype: "+devType )
-                                                    console.log("launch0")
-                                                    launchViz(0);
-                                                    console.log("launch1")        
-                                                    launchViz(1);
-                                                   // launchViz(2);
-                                
-                                       
-                                            
-                                                  
-                                                   
-                                                    // Launches the viz again with the new sizing at the current index of vizList.
-                                              }
-                                        
-                                        
-                                              function launchViz(vizNav) {
-                                                // JS object targeting a div in the html document. (vizNav) will pass navigation values to move back and forth across vizList.
-                                                console.log("vizContainer"+vizNav)
-                                                console.log("devtype: "+devType )
-                                                    var vizDiv = document.getElementById("vizContainer"+vizNav),
-                                                    // Will embed the visualization on a div with id="VizContainer"
-                                                    options = {
-                                                        device: devType,
-                                                        width: vWidth,
-                                                        height: vHeight,
-                                                        hideTabs: true,
-                                                        hideToolbar: true,
-                                                        onFirstInteractive: function () {
-                                                            listenToMarksSelection();
-                                                        }
-                                                    };
-                                                    
-                                        
-                                                    var vizURL = vizList[vizNav];
-                                                    // Dynamic URL returning the string from vizList at index = vizNav (viz to be displayed).
-                                        
-                                                            try {
-                                                                // Initializes the viz from the array with desired options. 
-                                                                viz = new tableau.Viz(vizDiv, vizURL, options);
-                                                        if (!viz) throw 'viz not initialized'
-                                                            }
-                                                            catch(err) {
-                                                                alert(err);
-                                                            }
-                                                            finally {
-                                                                console.log('whatever')
-                                                                console.count('initViz')
-                                                            }
-                                                    
-                                                }
-                                        
-                                        </script>
-                                    
-                                    
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.8.0.min.js"></script>
+
+    <script type="text/javascript">
+
+        window.addEventListener("load", mediaSizer);
+        //window.addEventListener("resize", mediaSizer);
+        // Listeners that will react when the page first loads or is resized.
+        // If any of these events take place the mediaSizer() function executes.
+
+        var vizList = [
+
+            "https://public.tableau.com/views/resultadosalus/Resultados?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link",
+            "https://public.tableau.com/views/HUMANRESOURCES-HRExpensesDashboardBrasilsalus/Cockpit?:language=en-US&publish=yes&:display_count=n&:origin=viz_share_link",
+            "https://demo.tableau.com/t/LuizOliveira/views/FinanasCorporativas-PainelDemonstrativoFinanceiro_16578110330000/Cockpit-Finance?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link"
 
 
-        </head>
+        ];
+        // Array of Tableau Server URLs for dashboard or sheet navigation.
+
+        var viz,
+            vizLen = vizList.length,
+            vizCount = 0,
+            devType;
+        var options = {
+            device: devType,
+        };
+
+
+        function mediaSizer() {
+            // Determines the correct viz layout according to screen sizes.
+            if (window.matchMedia("(max-width: 480px)").matches) {
+                //alert("I am a phone layout!");
+                devType = 'phone';
+                vWidth = 415;
+                vHeight = 2000;
+                //options.device = 'phone';
+            } else if (window.matchMedia("(max-width: 980px)").matches) {
+                //alert("I am a tablet layout!");
+                devType = 'tablet';
+                vWidth = 980;
+                //options.device = 'tablet';
+            } else {
+                //alert("I am a desktop layout!");
+                devType = 'desktop';
+                vWidth = 1600;
+                vHeight = 900;
+                //options.device = 'desktop';
+            }
+            console.log("devtype: " + devType)
+            console.log("launch0")
+            launchViz(0);
+            console.log("launch1")
+            launchViz(1);
+            // launchViz(2);
+
+
+
+
+
+            // Launches the viz again with the new sizing at the current index of vizList.
+        }
+
+
+        function launchViz(vizNav) {
+            // JS object targeting a div in the html document. (vizNav) will pass navigation values to move back and forth across vizList.
+            console.log("vizContainer" + vizNav)
+            console.log("devtype: " + devType)
+            var vizDiv = document.getElementById("vizContainer" + vizNav),
+                // Will embed the visualization on a div with id="VizContainer"
+                options = {
+                    device: devType,
+                    width: vWidth,
+                    height: vHeight,
+                    hideTabs: true,
+                    hideToolbar: true,
+                    onFirstInteractive: function () {
+                        listenToMarksSelection();
+                    }
+                };
+
+
+            var vizURL = vizList[vizNav];
+            // Dynamic URL returning the string from vizList at index = vizNav (viz to be displayed).
+
+            try {
+                // Initializes the viz from the array with desired options. 
+                viz = new tableau.Viz(vizDiv, vizURL, options);
+                if (!viz) throw 'viz not initialized'
+            }
+            catch (err) {
+                alert(err);
+            }
+            finally {
+                console.log('whatever')
+                console.count('initViz')
+            }
+
+        }
+
+    </script>
+
+
+
+
+</head>
 
 <body
     class="home page-template-default page page-id-128 elementor-default elementor-kit-7 elementor-page elementor-page-128 e--ua-isTouchDevice e--ua-blink e--ua-chrome e--ua-webkit"
@@ -2780,15 +2780,18 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-128 current_page_item menu-item-135">
                                             <a href="https://gruposalus.com.br/" aria-current="page"
-                                                class="elementor-item elementor-item-active">Home</a></li>
+                                                class="elementor-item elementor-item-active">Home</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136">
                                             <a href="https://gruposalus.com.br/grupo-salus/"
-                                                class="elementor-item">Grupo Salus</a></li>
+                                                class="elementor-item">Grupo Salus</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-137">
                                             <a href="https://gruposalus.com.br/nossas-marcas/"
-                                                class="elementor-item">Nossas Marcas</a></li>
+                                                class="elementor-item">Nossas Marcas</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2137">
                                             <a href="#" class="elementor-item elementor-item-anchor has-submenu"
@@ -2803,17 +2806,20 @@
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2133">
                                                     <a href="https://gruposalus.com.br/auditorio/"
-                                                        class="elementor-sub-item">Auditório</a></li>
+                                                        class="elementor-sub-item">Auditório</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2138">
                                                     <a href="https://gruposalus.com.br/estudio-podcast/"
-                                                        class="elementor-sub-item">Estúdio Podcast</a></li>
+                                                        class="elementor-sub-item">Estúdio Podcast</a>
+                                                </li>
                                             </ul>
                                         </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-138">
                                             <a href="https://gruposalus.com.br/newsroom/"
-                                                class="elementor-item">Newsroom</a></li>
+                                                class="elementor-item">Newsroom</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-139">
                                             <a href="https://gruposalus.com.br/contato/"
@@ -2828,15 +2834,18 @@
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-140">
                                                     <a href="https://gruposalus.com.br/trabalhe-conosco/"
-                                                        class="elementor-sub-item">Trabalhe Conosco</a></li>
+                                                        class="elementor-sub-item">Trabalhe Conosco</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-153">
                                                     <a href="https://gruposalus.com.br/fornecedor/"
-                                                        class="elementor-sub-item">Seja um Fornecedor</a></li>
+                                                        class="elementor-sub-item">Seja um Fornecedor</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-154">
                                                     <a href="https://gruposalus.com.br/indique-um-ponto/"
-                                                        class="elementor-sub-item">Indique um Ponto</a></li>
+                                                        class="elementor-sub-item">Indique um Ponto</a>
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -2854,15 +2863,18 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-128 current_page_item menu-item-135">
                                             <a href="https://gruposalus.com.br/" aria-current="page"
-                                                class="elementor-item elementor-item-active" tabindex="-1">Home</a></li>
+                                                class="elementor-item elementor-item-active" tabindex="-1">Home</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-136">
                                             <a href="https://gruposalus.com.br/grupo-salus/" class="elementor-item"
-                                                tabindex="-1">Grupo Salus</a></li>
+                                                tabindex="-1">Grupo Salus</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-137">
                                             <a href="https://gruposalus.com.br/nossas-marcas/" class="elementor-item"
-                                                tabindex="-1">Nossas Marcas</a></li>
+                                                tabindex="-1">Nossas Marcas</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2137">
                                             <a href="#" class="elementor-item elementor-item-anchor has-submenu"
@@ -2876,7 +2888,8 @@
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2133">
                                                     <a href="https://gruposalus.com.br/auditorio/"
-                                                        class="elementor-sub-item" tabindex="-1">Auditório</a></li>
+                                                        class="elementor-sub-item" tabindex="-1">Auditório</a>
+                                                </li>
                                                 <li
                                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2138">
                                                     <a href="https://gruposalus.com.br/estudio-podcast/"
@@ -2887,7 +2900,8 @@
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-138">
                                             <a href="https://gruposalus.com.br/newsroom/" class="elementor-item"
-                                                tabindex="-1">Newsroom</a></li>
+                                                tabindex="-1">Newsroom</a>
+                                        </li>
                                         <li
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-139">
                                             <a href="https://gruposalus.com.br/contato/"
@@ -3049,22 +3063,27 @@
 
 
                     <div style="text-align: center;">
-                        <p> Este é um micro-site criado somente para ilustrar o que seria o Tableau embedded no site do Grupo Salus. Somente alguns exemplos para inspira-los na avaliação do Tableau que servirá como um cockpit de vendas para novos franqueados e investidores</p> 
-                <p> Todos os dashboards apresentados contem dados ficticios para fins educacionais. Imagine poder treinar seu franqueado e equipe interna, mostrando benchmarks de outras franquias já estabilizadas em todos os processos produtivos. </p>  
-                    <div style="display: inline-block;">
-                        <div id="vizContainer0" ></div>
-                    </div></div>
+                        <p> Este é um micro-site criado somente para ilustrar o que seria o Tableau embedded no site do
+                            Grupo Salus. Somente alguns exemplos para inspira-los na avaliação do Tableau que servirá
+                            como um cockpit de vendas para novos franqueados e investidores</p>
+                        <p> Todos os dashboards apresentados contem dados ficticios para fins educacionais. Imagine
+                            poder treinar seu franqueado e equipe interna, mostrando benchmarks de outras franquias já
+                            estabilizadas em todos os processos produtivos. </p>
+                        <div style="display: inline-block;">
+                            <div id="vizContainer0"></div>
+                        </div>
 
-                    <div style="display: inline-block;">
-                        <div id="vizContainer1" ></div>
-                    </div></div>
+                        <div style="display: inline-block;">
+                            <div id="vizContainer1"></div>
+                        </div>
 
-                    <div style="text-align: center;">
-                    <div style="display: inline-block;">
-                        <div id="vizContainer2" ></div>
-                    </div></div>
+                        <div style="text-align: center;">
+                            <div style="display: inline-block;">
+                                <div id="vizContainer2"></div>
+                            </div>
+                        </div>
 
-
+                    </div>
 
                 </section>
                 <section
@@ -3993,7 +4012,8 @@
                                             data-id="43b72aa7" data-element_type="widget"
                                             data-widget_type="text-editor.default">
                                             <div class="elementor-widget-container"> Cadastre-se em nossa newsletter
-                                                <br>e receba informações e novidades <br>sobre o Grupo Salus </div>
+                                                <br>e receba informações e novidades <br>sobre o Grupo Salus
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -4019,14 +4039,16 @@
                                                                 name="form_fields[email]" id="form-field-email"
                                                                 class="elementor-field elementor-size-sm  elementor-field-textual"
                                                                 placeholder="Digite aqui seu email" required="required"
-                                                                aria-required="true"> </div>
+                                                                aria-required="true">
+                                                        </div>
                                                         <div
                                                             class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-25 e-form__buttons">
                                                             <button type="submit"
                                                                 class="elementor-button elementor-size-sm"> <span> <span
                                                                         class=" elementor-button-icon"> </span> <span
                                                                         class="elementor-button-text">Cadastrar</span>
-                                                                </span> </button> </div>
+                                                                </span> </button>
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>
@@ -5573,9 +5595,9 @@
             shadow.innerHTML = template.innerHTML;
             document.body.appendChild(div);
         })();
-    </script> <span id="elementor-device-mode" class="elementor-screen-only"></span><iframe allow="join-ad-interest-group"
-        data-tagging-id="AW-960306212" data-load-time="1709831895783" height="0" width="0"
-        style="display: none; visibility: hidden;"
+    </script> <span id="elementor-device-mode" class="elementor-screen-only"></span><iframe
+        allow="join-ad-interest-group" data-tagging-id="AW-960306212" data-load-time="1709831895783" height="0"
+        width="0" style="display: none; visibility: hidden;"
         src="https://td.doubleclick.net/td/rul/960306212?random=1709831895776&amp;cv=11&amp;fst=1709831895776&amp;fmt=3&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;gtm=45be4340v881159888za220&amp;gcd=13l3l3l3l1&amp;dma=0&amp;u_w=1920&amp;u_h=1080&amp;url=https%3A%2F%2Fgruposalus.com.br%2F&amp;ref=https%3A%2F%2Fgruposalus.com.br%2Ffranqueado%2F&amp;hn=www.googleadservices.com&amp;frm=0&amp;tiba=Home%20-%20Salus%20Participa%C3%A7%C3%B5es&amp;npa=0&amp;pscdl=noapi&amp;auid=1030538992.1709831894&amp;fledge=1&amp;data=event%3Dgtag.config"></iframe><svg
         style="display: none;" class="e-font-icon-svg-symbols"></svg>
 </body><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
